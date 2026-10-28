@@ -34,11 +34,3 @@ Support desk. Decision records: whoever signed them.
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
-
-## Added 2026-10-28: #4471 split into its problems
-
-- Page: `src/routes/kb/incidents/4471/problems/+page.svx`, signed (desk ref `DR-EE97-0404`). It uses
-  only the desk's own components as exported (`CauseTable`, `Callout`, `RenderStamp`).
-- Tickets: one GitHub issue per problem in this repo, each with the number of reports it covers.
-- The page as the desk sees it: `desk-view/kb/incidents/4471/problems.html` (static, styles inlined)
-  and `desk-view/problems.png`. Build it again with `npm install && npm run build`.
