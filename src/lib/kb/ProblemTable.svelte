@@ -51,7 +51,15 @@
   </tbody>
 </table>
 
+{#each groups.filter((g) => g.filedUnder.length) as g (g.problem)}
+  <p class="note">
+    The {g.reports.length} <code>{g.problem}</code> reports are filed under
+    <code>{g.filedUnder.join(', ')}</code> and counted there too, as the desk counts.
+  </p>
+{/each}
+
 <style>
+  .note { color: var(--muted); font-size: 0.85em; }
   .sum { font-size: 1.1rem; }
   .tags { color: var(--muted); font-size: 0.85em; }
   .none { color: var(--warn); font-weight: 600; }

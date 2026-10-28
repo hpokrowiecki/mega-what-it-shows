@@ -36,7 +36,8 @@ does not touch it. Only reports sent through that form, at tenants that run it, 
 **`one-day-move`: a booking lands one day off.** Tuesday 12 May shows as Monday 11 May; one meeting
 is on Tuesday in Lisbon and on Monday in Toronto. The month and the day stay in place, so date order
 cannot explain it. It looks like a time zone problem. `causes.ts` files these reports by tenant,
-under `parser`; the desk lists them in `desk-notes.json`, and this table takes them out.
+under `parser`, and the desk counts them there. `desk-notes.json` lists them, and this table gives
+them a row and a ticket of their own as well.
 
 <Callout kind="warn">
 Fixing the parser closes the parser ticket, not #4471. Keep the other tickets open until their own
@@ -55,6 +56,7 @@ Intake's tag does not split them either: it is a guess from the reporter's brows
 - One id, one report. The export comes in overlapping pages, so some reports appear twice.
 - A report's cause comes from its tenant (locale and booking form) and its channel, as
   `causes.ts` decides it. The reporter's browser does not count.
-- A report the desk listed as a one-day move counts there, not under the cause it was filed under.
+- A report the desk listed as a one-day move counts twice: under the cause it is filed under, as
+  the desk counts, and in its own row.
 
 <RenderStamp {signature} />
