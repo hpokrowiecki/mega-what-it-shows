@@ -4,7 +4,7 @@ title: '#4471 · the problems inside it'
 owner: support desk
 status: open
 reviewed: 2026-10-28
-signature: hpokrowiecki
+signature: v1.eyJzdWIiOiIxNjAwIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMDI5MjIsImV4cCI6MTc5MzI4OTMyMn0.Mb8bPKLxd9Ef5klQECFQGHmg31e8xFGvUtouA9k6dEc
 ---
 
 <script>
