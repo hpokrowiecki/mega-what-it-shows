@@ -8,7 +8,7 @@
 
   let { ticket }: { ticket: number } = $props();
 
-  type Filed = { number: number; url: string } | null;
+  type Filed = { number: number; url: string; outcome: string; why: string } | null;
 
   const rows = reports as Report[];
   const merged = $derived(mergedInto(rows, ticket));
@@ -32,7 +32,7 @@
 
 <table>
   <thead>
-    <tr><th>problem</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th>ticket</th></tr>
+    <tr><th>problem</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th>ticket</th><th>state</th></tr>
   </thead>
   <tbody>
     {#each groups as g (g.problem)}
@@ -46,10 +46,15 @@
         <td>
           {#if t}<a href={t.url}>{filed.repo}#{t.number}</a>{:else}<span class="none">no ticket yet</span>{/if}
         </td>
+        <td>
+          {#if t}<b class:none={t.outcome === 'open'}>{t.outcome}</b><br /><span class="tags">{t.why}</span>{/if}
+        </td>
       </tr>
     {/each}
   </tbody>
 </table>
+
+<p class="note">State from the {filed.update}.</p>
 
 {#each groups.filter((g) => g.filedUnder.length) as g (g.problem)}
   <p class="note">

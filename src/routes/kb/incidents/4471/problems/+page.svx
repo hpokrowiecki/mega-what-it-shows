@@ -19,29 +19,32 @@ with no ticket of its own. Under the table, a note names reports the desk read a
 Those reports do not have a month and a day swapped. They are a different problem.
 
 Each problem now has its own ticket. The table is built from the ticket export at render time.
+#4471 closed on 5 October: the parser fix shipped and the booking-v3 form is retired. The
+engineering update does not mention the one-day moves, so their ticket stays open.
 
 <ProblemTable ticket={4471} />
 
 ## The problems
 
 **`parser`: the shared parser reads dates month first.** A tenant that writes the day first sees
-7 April come out as 4 July. Reports come in by app, by email and through the booking-v2 form. This
-is the fix that is queued, and it closes this row only.
+7 April come out as 4 July. Reports come in by app, by email and through the booking-v2 form.
+Fixed: `fix(dates): parse dd/mm for eu locales` closes this row, and this row only.
 
 **`hint`: the booking-v3 form prints `MM/DD/YYYY` under its date field.** At tenants that write
 the day first, people type what the hint tells them, month first, and the form reads it the
 tenant's way. The result looks the same as `parser`, but it comes from the form, so the parser fix
 does not touch it. Only reports sent through that form, at tenants that run it, belong here.
+Won't fix: the booking-v3 form is retired, and with it the hint.
 
 **`one-day-move`: a booking lands one day off.** Tuesday 12 May shows as Monday 11 May; one meeting
 is on Tuesday in Lisbon and on Monday in Toronto. The month and the day stay in place, so date order
 cannot explain it. It looks like a time zone problem. `causes.ts` files these reports by tenant,
 under `parser`, and the desk counts them there. `desk-notes.json` lists them, and this table gives
-them a row and a ticket of their own as well.
+them a row and a ticket of their own as well. Still open: neither the parser fix nor the retired
+form explains a booking that moves by one day.
 
 <Callout kind="warn">
-Fixing the parser closes the parser ticket, not #4471. Keep the other tickets open until their own
-fix ships.
+#4471 is closed, but the one-day moves are not fixed. Keep their ticket open until a fix ships.
 </Callout>
 
 ## How they ended up in one ticket
