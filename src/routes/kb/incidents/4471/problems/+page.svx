@@ -8,40 +8,40 @@ signature: Hubert Pokrowiecki
 ---
 
 <script>
-  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
   import Callout from '#lib/kb/Callout.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
 The page for [#4471](/kb/incidents/4471) says one issue, one fix queued. Its own table says
-otherwise. It splits the merged reports by cause and marks the booking form's hint as a cause
-with no ticket of its own. Under the table, a note names reports the desk read as a one-day move.
-Those reports do not have a month and a day swapped. They are a different problem.
+otherwise. Rendered, it splits the merged reports by cause, marks the booking form's hint as a cause
+with no ticket of its own, and names the reports the desk read as a one-day move. Those reports do
+not have a month and a day swapped. Each problem now has a ticket of its own.
 
-Each problem now has its own ticket. The table is built from the ticket export at render time.
-#4471 closed on 5 October: the parser fix shipped and the booking-v3 form is retired. The
+<CauseTable ticket={4471} />
+
+#4471 closed on 5 October: the parser fix shipped and the booking-v3 form is retired. That
 engineering update does not mention the one-day moves, so their ticket stays open.
-
-<ProblemTable ticket={4471} />
 
 ## The problems
 
 **`parser`: the shared parser reads dates month first.** A tenant that writes the day first sees
 7 April come out as 4 July. Reports come in by app, by email and through the booking-v2 form.
-Fixed: `fix(dates): parse dd/mm for eu locales` closes this row, and this row only.
+Ticket [mega-what-it-shows#1](https://github.com/hpokrowiecki/mega-what-it-shows/issues/1), fixed by
+`fix(dates): parse dd/mm for eu locales`. That fix closes this problem only.
 
-**`hint`: the booking-v3 form prints `MM/DD/YYYY` under its date field.** At tenants that write
-the day first, people type what the hint tells them, month first, and the form reads it the
-tenant's way. The result looks the same as `parser`, but it comes from the form, so the parser fix
-does not touch it. Only reports sent through that form, at tenants that run it, belong here.
-Won't fix: the booking-v3 form is retired, and with it the hint.
+**`hint`: the booking-v3 form prints `MM/DD/YYYY` under its date field.** At tenants that write the
+day first, people type what the hint tells them, month first, and the form reads it the tenant's
+way. The result looks the same as `parser`, but it comes from the form, so the parser fix does not
+touch it. Ticket [mega-what-it-shows#2](https://github.com/hpokrowiecki/mega-what-it-shows/issues/2),
+won't fix: the booking-v3 form is retired, and with it the hint.
 
-**`one-day-move`: a booking lands one day off.** Tuesday 12 May shows as Monday 11 May; one meeting
-is on Tuesday in Lisbon and on Monday in Toronto. The month and the day stay in place, so date order
-cannot explain it. It looks like a time zone problem. `causes.ts` files these reports by tenant,
-under `parser`, and the desk counts them there. `desk-notes.json` lists them, and this table gives
-them a row and a ticket of their own as well. Still open: neither the parser fix nor the retired
-form explains a booking that moves by one day.
+**One-day move: a booking lands one day off.** Tuesday 12 May shows as Monday 11 May; one meeting is
+on Tuesday in Lisbon and on Monday in Toronto. The month and the day stay in place, so date order
+cannot explain it. It looks like a time zone problem. The table files these reports by tenant, under
+`parser`, and counts them there; the note under it names how many the desk read this way. Ticket
+[mega-what-it-shows#3](https://github.com/hpokrowiecki/mega-what-it-shows/issues/3), still open:
+neither the parser fix nor the retired form explains a booking that moves by one day.
 
 <Callout kind="warn">
 #4471 is closed, but the one-day moves are not fixed. Keep their ticket open until a fix ships.
@@ -50,16 +50,15 @@ form explains a booking that moves by one day.
 ## How they ended up in one ticket
 
 [Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges reports on the subject line alone.
-"Booking on the wrong date" reads the same for every problem in the table, so nobody read the bodies.
+"Booking on the wrong date" reads the same for every problem here, so nobody read the bodies.
 Intake's tag does not split them either: it is a guess from the reporter's browser, and the
 "tagged as" column shows how far that guess is from the count by tenant and channel.
 
 ## How the table counts
 
 - One id, one report. The export comes in overlapping pages, so some reports appear twice.
-- A report's cause comes from its tenant (locale and booking form) and its channel, as
-  `causes.ts` decides it. The reporter's browser does not count.
-- A report the desk listed as a one-day move counts twice: under the cause it is filed under, as
-  the desk counts, and in its own row.
+- A report's cause comes from its tenant (locale and booking form) and its channel, as `causes.ts`
+  decides it. The reporter's browser does not count.
+- A report the desk read as a one-day move is counted where it is filed, and named in the note.
 
 <RenderStamp {signature} />

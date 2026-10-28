@@ -37,9 +37,8 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 ## Added 2026-10-28: #4471 split into its problems
 
-- Page: `src/routes/kb/incidents/4471/problems/+page.svx`, signed (desk ref `DR-XDRG-S87C`).
-- Logic: `src/lib/kb/problems.ts` (cause from `causes.ts`, one-day moves from `desk-notes.json`) and
-  `src/lib/kb/ProblemTable.svelte`; tickets in `src/lib/data/tickets-4471.json`.
+- Page: `src/routes/kb/incidents/4471/problems/+page.svx`, signed (desk ref `DR-XDRG-S87C`). It uses
+  only the desk's own components as exported (`CauseTable`, `Callout`, `RenderStamp`).
 - Tickets: one GitHub issue per problem in this repo, each with the number of reports it covers.
 - The page as the desk sees it: `desk-view/kb/incidents/4471/problems.html` (static, styles inlined)
   and `desk-view/problems.png`. Build it again with `npm install && npm run build`.
